@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.DAO;
 import entity.Users;
+import utils.Encrypt;
 
 /**
  * Servlet implementation class SignUpServlet
@@ -74,6 +75,7 @@ public class SignUpServlet extends HttpServlet {
 					request.setAttribute("erorr", "Username is exist");
 					request.getRequestDispatcher("signup.jsp").forward(request, response);
 				} else {
+					pass = Encrypt.toSHA1(pass);
 					dao.signUpUsers(username, pass, fullname, phone);
 					response.sendRedirect("login.jsp");
 				}
@@ -99,7 +101,8 @@ public class SignUpServlet extends HttpServlet {
 					request.setAttribute("erorr", "Username is exist");
 					request.getRequestDispatcher("signupAdmin.jsp").forward(request, response);
 				} else {
-					dao.signUpAdmin(username, repass, fullname, phone);
+					pass = Encrypt.toSHA1(pass);
+					dao.signUpAdmin(username, pass, fullname, phone);
 					response.sendRedirect("ShopServlet");
 				}
 			}

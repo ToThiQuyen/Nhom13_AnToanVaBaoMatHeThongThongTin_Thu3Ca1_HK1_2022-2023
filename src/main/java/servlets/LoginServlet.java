@@ -12,6 +12,7 @@ import com.mysql.cj.jdbc.interceptors.SessionAssociationInterceptor;
 
 import dao.DAO;
 import entity.Users;
+import utils.Encrypt;
 
 /**
  * Servlet implementation class Login
@@ -41,6 +42,7 @@ public class LoginServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		String username = request.getParameter("username");
 		String pass = request.getParameter("password");
+		pass = Encrypt.toSHA1(pass);
 		DAO dao = new DAO();
 		Users users = dao.checkUserLogin(username, pass);
 		if(users == null) {
